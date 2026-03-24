@@ -1,6 +1,6 @@
 /**
  * XFOURTEEN LINKTREE - GOLDEN ROYAL EDITION
- * WITH VIDEO BACKGROUND & MUSIC PLAYER
+ * WITH VIDEO BACKGROUND & AUTO-PLAY MUSIC
  */
 
 // ============================================
@@ -232,74 +232,48 @@ class CursorGlow {
 }
 
 // ============================================
-// MUSIC PLAYER
+// MUSIC PLAYER - AUTO-PLAY & LOOP (NO VISUAL)
 // ============================================
 class MusicPlayer {
     constructor() {
         this.audio = document.getElementById('bgMusic');
-        this.toggleBtn = document.getElementById('musicToggle');
-        this.musicIcon = this.toggleBtn?.querySelector('.music-icon');
-        this.pauseIcon = this.toggleBtn?.querySelector('.pause-icon');
-        this.isPlaying = false;
         this.init();
     }
 
     init() {
-        if (!this.audio || !this.toggleBtn) return;
+        if (!this.audio) return;
         
         this.audio.volume = 0.5;
+        this.audio.loop = true;
         this.audio.load();
+        
+        // Try to auto-play (may be blocked by browser)
         this.attemptAutoPlay();
         
-        this.toggleBtn.addEventListener('click', () => this.togglePlay());
+        // User interaction to enable auto-play if blocked
+        const enableAutoPlay = () => {
+            this.attemptAutoPlay();
+            document.removeEventListener('click', enableAutoPlay);
+            document.removeEventListener('touchstart', enableAutoPlay);
+            document.removeEventListener('keydown', enableAutoPlay);
+        };
         
+        document.addEventListener('click', enableAutoPlay);
+        document.addEventListener('touchstart', enableAutoPlay);
+        document.addEventListener('keydown', enableAutoPlay);
+        
+        // Fallback if local file not found
         this.audio.addEventListener('error', () => {
             this.audio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
             this.audio.load();
             this.attemptAutoPlay();
         });
-        
-        const enableAutoPlay = () => {
-            if (!this.isPlaying) this.attemptAutoPlay();
-            document.removeEventListener('click', enableAutoPlay);
-            document.removeEventListener('touchstart', enableAutoPlay);
-        };
-        document.addEventListener('click', enableAutoPlay);
-        document.addEventListener('touchstart', enableAutoPlay);
     }
     
     attemptAutoPlay() {
-        this.audio.play().then(() => {
-            this.isPlaying = true;
-            this.updateButtonUI();
-        }).catch(() => {
-            this.isPlaying = false;
-            this.updateButtonUI();
-            showToast('Tap play to enjoy royal melody');
+        this.audio.play().catch(() => {
+            console.log('Auto-play blocked. User interaction needed.');
         });
-    }
-    
-    togglePlay() {
-        if (this.isPlaying) {
-            this.audio.pause();
-            this.isPlaying = false;
-        } else {
-            this.audio.play().catch(() => showToast('Tap anywhere to enable audio'));
-            this.isPlaying = true;
-        }
-        this.updateButtonUI();
-    }
-    
-    updateButtonUI() {
-        if (this.isPlaying) {
-            this.musicIcon.classList.add('hidden');
-            this.pauseIcon.classList.remove('hidden');
-            this.toggleBtn.classList.add('playing');
-        } else {
-            this.musicIcon.classList.remove('hidden');
-            this.pauseIcon.classList.add('hidden');
-            this.toggleBtn.classList.remove('playing');
-        }
     }
 }
 
