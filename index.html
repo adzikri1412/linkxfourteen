@@ -169,22 +169,8 @@
         </footer>
     </main>
 
-    <!-- Music Player -->
-    <div id="musicPlayer" class="fixed bottom-6 left-6 z-50">
-        <div class="music-player-container">
-            <button id="musicToggle" class="music-toggle-btn group">
-                <i class="fas fa-music music-icon"></i>
-                <i class="fas fa-pause pause-icon hidden"></i>
-                <div class="music-pulse"></div>
-            </button>
-            <div class="music-info">
-                <span class="music-title">Golden Brown</span>
-                <span class="music-artist">Royal Edition</span>
-            </div>
-        </div>
-    </div>
-
-    <audio id="bgMusic" loop preload="auto">
+    <!-- Audio Element - Background Music (Auto-play, Loop, No Visual) -->
+    <audio id="bgMusic" loop autoplay preload="auto">
         <source src="assets/golden-brown.mp3" type="audio/mpeg">
     </audio>
 
