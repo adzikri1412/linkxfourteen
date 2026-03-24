@@ -1,10 +1,10 @@
 /**
  * XFOURTEEN LINKTREE - GOLDEN ROYAL EDITION
- * FULL JS - WITH BLUR LOADING SCREEN
+ * FULL JS - WITH MUSIC PLAYER
  */
 
 // ============================================
-// PARTICLE SYSTEMS - ENHANCED VISIBILITY
+// PARTICLE SYSTEMS
 // ============================================
 
 class GoldDustSystem {
@@ -232,8 +232,74 @@ class CursorGlow {
         });
     }
 }
+
 // ============================================
-// TOAST FUNCTION - FIXED & RAPI
+// MUSIC PLAYER
+// ============================================
+class MusicPlayer {
+    constructor() {
+        this.audio = document.getElementById('bgMusic');
+        this.toggleBtn = document.getElementById('musicToggle');
+        this.musicIcon = this.toggleBtn?.querySelector('.music-icon');
+        this.pauseIcon = this.toggleBtn?.querySelector('.pause-icon');
+        this.isPlaying = false;
+        this.init();
+    }
+
+    init() {
+        if (!this.audio || !this.toggleBtn) return;
+        
+        // Set volume
+        this.audio.volume = 0.5;
+        
+        // Try to load audio
+        this.audio.load();
+        
+        // Auto-play attempt (will be blocked by browser, but we try)
+        this.audio.play().catch(() => {
+            console.log('Autoplay blocked - user needs to interact first');
+        });
+        
+        // Add click event
+        this.toggleBtn.addEventListener('click', () => this.toggle());
+        
+        // Add event listeners for audio
+        this.audio.addEventListener('canplaythrough', () => {
+            console.log('Audio ready');
+        });
+        
+        this.audio.addEventListener('error', (e) => {
+            console.log('Audio error, using fallback');
+            // Fallback to online source if local file not found
+            if (this.audio.src.includes('golden-brown.mp3')) {
+                this.audio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+                this.audio.load();
+            }
+        });
+    }
+
+    toggle() {
+        if (this.isPlaying) {
+            this.audio.pause();
+            this.musicIcon.classList.remove('hidden');
+            this.pauseIcon.classList.add('hidden');
+            this.toggleBtn.classList.remove('playing');
+            this.isPlaying = false;
+        } else {
+            this.audio.play().catch(err => {
+                console.log('Play failed:', err);
+                showToast('Click anywhere to enable audio');
+            });
+            this.musicIcon.classList.add('hidden');
+            this.pauseIcon.classList.remove('hidden');
+            this.toggleBtn.classList.add('playing');
+            this.isPlaying = true;
+        }
+    }
+}
+
+// ============================================
+// TOAST FUNCTION
 // ============================================
 function showToast(message, duration = 2800) {
     const toast = document.getElementById('toast');
@@ -241,51 +307,18 @@ function showToast(message, duration = 2800) {
     
     if (!toast || !toastMsg) return;
     
-    // Set message
     toastMsg.textContent = message;
-    
-    // Remove existing classes
     toast.classList.remove('show');
-    
-    // Force reflow to restart animation
     void toast.offsetWidth;
-    
-    // Add show class
     toast.classList.add('show');
     
-    // Auto hide after duration
     setTimeout(() => {
         toast.classList.remove('show');
     }, duration);
 }
 
-// Optional: Different toast types for different messages
-function showSuccessToast(message) {
-    const toast = document.getElementById('toast');
-    const toastContent = toast?.querySelector('.toast-content');
-    if (toastContent) {
-        toastContent.style.background = 'linear-gradient(135deg, #22c55e, #16a34a, #22c55e)';
-        setTimeout(() => {
-            toastContent.style.background = 'linear-gradient(135deg, #ffdd77, #ffd966, #ffea8a)';
-        }, 2800);
-    }
-    showToast(message);
-}
-
-function showErrorToast(message) {
-    const toast = document.getElementById('toast');
-    const toastContent = toast?.querySelector('.toast-content');
-    if (toastContent) {
-        toastContent.style.background = 'linear-gradient(135deg, #ef4444, #dc2626, #ef4444)';
-        setTimeout(() => {
-            toastContent.style.background = 'linear-gradient(135deg, #ffdd77, #ffd966, #ffea8a)';
-        }, 2800);
-    }
-    showToast(message);
-}
-
 // ============================================
-// DOM READY - WITH BLUR LOADING SCREEN
+// DOM READY
 // ============================================
 window.addEventListener('DOMContentLoaded', () => {
     // Initialize All Effects
@@ -293,13 +326,13 @@ window.addEventListener('DOMContentLoaded', () => {
     new GoldDustSystem();
     new ParticleSystem();
     new MouseTrail();
+    new MusicPlayer();
     
-    // Loader with Blur Effect - Enhanced
+    // Loader
     const loader = document.getElementById('loader');
     const loadingBar = document.getElementById('loadingBar');
     
     if (loader && loadingBar) {
-        // Add initial blur class if needed
         loader.style.backdropFilter = 'blur(12px)';
         loader.style.webkitBackdropFilter = 'blur(12px)';
         
@@ -310,7 +343,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 progress = 100;
                 clearInterval(interval);
                 
-                // Add loaded class for smooth exit with blur removal
                 loader.classList.add('loaded');
                 loader.style.backdropFilter = 'blur(0px)';
                 loader.style.webkitBackdropFilter = 'blur(0px)';
@@ -324,7 +356,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }, 50);
     }
     
-    // Add ripple effect to link cards
+    // Ripple effect
     const addRippleEffect = (element) => {
         element.addEventListener('click', function(e) {
             const ripple = document.createElement('span');
@@ -359,23 +391,14 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     };
     
-    // Apply ripple effect to all link cards
-    document.querySelectorAll('.link-card').forEach(card => {
-        addRippleEffect(card);
+    document.querySelectorAll('.link-card').forEach(card => addRippleEffect(card));
+    
+    // Preload images
+    document.querySelectorAll('img').forEach(img => {
+        if (img.src && !img.complete) img.loading = 'eager';
     });
     
-    // Preload images for smoother experience
-    const preloadImages = () => {
-        const images = document.querySelectorAll('img');
-        images.forEach(img => {
-            if (img.src && !img.complete) {
-                img.loading = 'eager';
-            }
-        });
-    };
-    preloadImages();
-    
-    // Handle any links that might need confirmation
+    // Handle empty links
     document.querySelectorAll('.link-card').forEach(card => {
         const link = card.getAttribute('href');
         if (!link || link === '#' || link === '#!' || link === 'javascript:void(0)') {
@@ -387,28 +410,17 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// ============================================
-// ADDITIONAL SMOOTH SCROLL & PERFORMANCE
-// ============================================
-
-// Debounce function for better scroll performance
+// Debounce function
 function debounce(func, wait) {
     let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
+    return function(...args) {
         clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
+        timeout = setTimeout(() => func(...args), wait);
     };
 }
 
-// Handle window resize with debounce
 window.addEventListener('resize', debounce(() => {
-    // Re-adjust any canvas elements if needed
-    const canvases = document.querySelectorAll('canvas');
-    canvases.forEach(canvas => {
+    document.querySelectorAll('canvas').forEach(canvas => {
         if (canvas.width !== window.innerWidth) {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -416,18 +428,7 @@ window.addEventListener('resize', debounce(() => {
     });
 }, 250));
 
-// Prevent right-click context menu on images for cleaner look
+// Prevent right-click on images
 document.querySelectorAll('img').forEach(img => {
     img.addEventListener('contextmenu', (e) => e.preventDefault());
-});
-
-// Add keyboard shortcut (ESC to close any modals if added later)
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        // Close any open modals if present
-        const modals = document.querySelectorAll('.modal.show');
-        modals.forEach(modal => {
-            modal.classList.remove('show');
-        });
-    }
 });
