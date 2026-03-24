@@ -415,7 +415,7 @@ h1 .text-white {
     display: flex;
     align-items: center;
     gap: 12px;
-    background: linear-gradient(145deg, rgba(15, 10, 10, 0.9), rgba(8, 5, 5, 0.95));
+    background: linear-gradient(145deg, rgba(15, 10, 10, 0.95), rgba(8, 5, 5, 0.98));
     backdrop-filter: blur(12px);
     padding: 8px 16px 8px 12px;
     border-radius: 60px;
@@ -506,6 +506,39 @@ h1 .text-white {
     font-family: 'Montserrat', sans-serif;
 }
 
+/* Volume Control */
+.music-volume {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 4px;
+}
+
+.music-volume i {
+    font-size: 0.75rem;
+    color: #ffea8a;
+}
+
+.volume-slider {
+    width: 60px;
+    height: 3px;
+    -webkit-appearance: none;
+    background: rgba(212, 175, 55, 0.3);
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ffea8a;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(255, 234, 138, 0.8);
+}
+
 @media (max-width: 640px) {
     .music-player-container {
         padding: 6px 12px 6px 10px;
@@ -527,6 +560,10 @@ h1 .text-white {
     
     .music-artist {
         font-size: 0.5rem;
+    }
+    
+    .music-volume {
+        display: none;
     }
     
     #musicPlayer {
