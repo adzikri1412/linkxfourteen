@@ -1,6 +1,6 @@
 /* ============================================
    XFOURTEEN LINKTREE - GOLDEN ROYAL EDITION
-   FIXED - TEXT VISIBLE & PARTICLE OPTIMIZED
+   WITH MUSIC PLAYER
    ============================================ */
 
 /* Import Fonts */
@@ -81,10 +81,6 @@ body {
     100% { background-position: 200% 0; }
 }
 
-@keyframes glow-rotate {
-    to { transform: rotate(360deg); }
-}
-
 .animate-spin-slow {
     animation: spin-slow 6s linear infinite;
 }
@@ -101,7 +97,6 @@ body {
    LOADING SCREEN - BLUR BACKGROUND EFFECT
    ============================================ */
 
-/* Loading Screen Container */
 #loader {
     position: fixed;
     inset: 0;
@@ -116,7 +111,6 @@ body {
     transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1), backdrop-filter 0.4s ease;
 }
 
-/* Loading Screen Background Overlay - Enhanced Blur */
 #loader::before {
     content: '';
     position: absolute;
@@ -126,15 +120,12 @@ body {
     z-index: -1;
 }
 
-/* Loading Screen Content - Keep Sharp */
 #loader .text-center {
     position: relative;
     z-index: 2;
     backdrop-filter: blur(0px) !important;
-    -webkit-backdrop-filter: blur(0px) !important;
 }
 
-/* Optional: Add a subtle dark overlay for better contrast */
 #loader::after {
     content: '';
     position: absolute;
@@ -144,49 +135,41 @@ body {
     z-index: 0;
 }
 
-/* Loading Screen Animation - Smooth Exit */
 #loader.loaded {
     opacity: 0;
     backdrop-filter: blur(0px) !important;
-    -webkit-backdrop-filter: blur(0px) !important;
     transition: opacity 0.5s ease, backdrop-filter 0.5s ease;
 }
 
-/* Loading Bar Container - Enhance visibility on blurred bg */
 #loader .bg-gold-900\/30 {
     background: rgba(212, 175, 55, 0.15) !important;
     box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
 }
 
-/* Loading Bar - Glow Effect */
 #loader #loadingBar {
     background: linear-gradient(90deg, #ffea8a, #ffdd77, #ffd966, #ffdd77, #ffea8a) !important;
     box-shadow: 0 0 12px rgba(255, 234, 138, 0.8) !important;
     transition: width 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
 }
 
-/* Loading Text - Enhance readability on blurred bg */
 #loader .text-gold-400\/60 {
     color: rgba(255, 234, 138, 0.85) !important;
     text-shadow: 0 0 10px rgba(212, 175, 55, 0.5) !important;
     letter-spacing: 3px !important;
 }
 
-/* Loading Brand Text */
 #loader h2 {
     text-shadow: 0 0 20px rgba(255, 234, 138, 0.5) !important;
 }
 
 /* ============================================
-   PROFILE SECTION - FIXED TEXT VISIBLE
+   PROFILE SECTION
    ============================================ */
 
-/* Profile Container */
 .text-center.mb-8 {
     margin-bottom: 32px !important;
 }
 
-/* Avatar */
 .avatar-wrapper {
     position: relative;
     display: inline-block;
@@ -216,7 +199,6 @@ body {
     }
 }
 
-/* XFOURTEEN Text - VISIBLE & BOLD */
 h1 {
     margin-bottom: 8px !important;
 }
@@ -259,7 +241,6 @@ h1 .text-white {
     }
 }
 
-/* Bio Text */
 .text-gold-300\/60 {
     color: rgba(230, 213, 184, 0.85) !important;
     font-size: 0.85rem !important;
@@ -423,10 +404,141 @@ h1 .text-white {
 }
 
 /* ============================================
-   TOAST NOTIFICATION - FIXED & RAPI
+   MUSIC PLAYER - GOLDEN ROYAL THEME
    ============================================ */
 
-/* Toast Container */
+#musicPlayer {
+    z-index: 100;
+}
+
+.music-player-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(145deg, rgba(15, 10, 10, 0.9), rgba(8, 5, 5, 0.95));
+    backdrop-filter: blur(12px);
+    padding: 8px 16px 8px 12px;
+    border-radius: 60px;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(212, 175, 55, 0.2);
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+
+.music-player-container:hover {
+    border-color: rgba(212, 175, 55, 0.8);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+    transform: translateY(-2px);
+}
+
+.music-toggle-btn {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #d4af37, #b8860b);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+}
+
+.music-toggle-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
+}
+
+.music-toggle-btn i {
+    font-size: 1.2rem;
+    color: #1a1408;
+    transition: all 0.2s ease;
+}
+
+.music-toggle-btn .hidden {
+    display: none;
+}
+
+.music-pulse {
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.6), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.music-toggle-btn.playing .music-pulse {
+    opacity: 1;
+    animation: music-pulse 1.5s ease-out infinite;
+}
+
+@keyframes music-pulse {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+.music-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.music-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #ffea8a;
+    letter-spacing: 0.5px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.music-artist {
+    font-size: 0.6rem;
+    color: rgba(212, 175, 55, 0.7);
+    font-family: 'Montserrat', sans-serif;
+}
+
+@media (max-width: 640px) {
+    .music-player-container {
+        padding: 6px 12px 6px 10px;
+        gap: 8px;
+    }
+    
+    .music-toggle-btn {
+        width: 38px;
+        height: 38px;
+    }
+    
+    .music-toggle-btn i {
+        font-size: 1rem;
+    }
+    
+    .music-title {
+        font-size: 0.65rem;
+    }
+    
+    .music-artist {
+        font-size: 0.5rem;
+    }
+    
+    #musicPlayer {
+        bottom: 20px;
+        left: 20px;
+    }
+}
+
+/* ============================================
+   TOAST NOTIFICATION
+   ============================================ */
+
 #toast {
     position: fixed;
     bottom: 30px;
@@ -438,14 +550,12 @@ h1 .text-white {
     visibility: hidden;
 }
 
-/* Toast Show State */
 #toast.show {
     transform: translateX(-50%) translateY(0);
     opacity: 1;
     visibility: visible;
 }
 
-/* Toast Content */
 #toast .toast-content {
     background: linear-gradient(135deg, #ffdd77, #ffd966, #ffea8a);
     border-radius: 50px;
@@ -458,14 +568,12 @@ h1 .text-white {
     backdrop-filter: blur(4px);
 }
 
-/* Toast Icon */
 #toast .toast-content i {
     font-size: 1.2rem;
     color: #1a1408;
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
 
-/* Toast Message */
 #toast .toast-content span {
     font-size: 0.85rem;
     font-weight: 700;
@@ -474,7 +582,6 @@ h1 .text-white {
     font-family: 'Montserrat', sans-serif;
 }
 
-/* Responsive Toast */
 @media (max-width: 640px) {
     #toast .toast-content {
         padding: 10px 20px;
@@ -494,14 +601,9 @@ h1 .text-white {
     }
 }
 
-/* Optional: Add animation for toast icon */
 @keyframes toast-icon-pulse {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
 }
 
 #toast.show .toast-content i {
