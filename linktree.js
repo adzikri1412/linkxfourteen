@@ -1,6 +1,6 @@
 /**
  * XFOURTEEN LINKTREE - GOLDEN ROYAL EDITION
- * FULL JS - WITH MUSIC PLAYER (Auto-play, Play/Pause, Volume Control)
+ * WITH VIDEO BACKGROUND & MUSIC PLAYER
  */
 
 // ============================================
@@ -214,9 +214,7 @@ class CursorGlow {
             this.cursor.style.opacity = '1';
         });
         
-        document.addEventListener('mouseleave', () => {
-            this.cursor.style.opacity = '0';
-        });
+        document.addEventListener('mouseleave', () => { this.cursor.style.opacity = '0'; });
         
         document.querySelectorAll('a, .link-card, .social-icon').forEach(el => {
             el.addEventListener('mouseenter', () => {
@@ -234,93 +232,50 @@ class CursorGlow {
 }
 
 // ============================================
-// MUSIC PLAYER - WITH AUTO-PLAY & VOLUME CONTROL
+// MUSIC PLAYER
 // ============================================
 class MusicPlayer {
     constructor() {
         this.audio = document.getElementById('bgMusic');
         this.toggleBtn = document.getElementById('musicToggle');
-        this.volumeSlider = document.getElementById('volumeControl');
         this.musicIcon = this.toggleBtn?.querySelector('.music-icon');
         this.pauseIcon = this.toggleBtn?.querySelector('.pause-icon');
         this.isPlaying = false;
-        this.hasUserInteracted = false;
         this.init();
     }
 
     init() {
         if (!this.audio || !this.toggleBtn) return;
         
-        // Set initial volume
         this.audio.volume = 0.5;
-        if (this.volumeSlider) {
-            this.volumeSlider.value = 50;
-        }
-        
-        // Load audio
         this.audio.load();
-        
-        // Try to auto-play (will be blocked by browser, but we try)
         this.attemptAutoPlay();
         
-        // Add click event for toggle button
         this.toggleBtn.addEventListener('click', () => this.togglePlay());
         
-        // Add volume control event
-        if (this.volumeSlider) {
-            this.volumeSlider.addEventListener('input', (e) => {
-                const volume = e.target.value / 100;
-                this.audio.volume = volume;
-            });
-        }
-        
-        // Add event listener for user interaction to enable auto-play
-        const enableAutoPlay = () => {
-            if (!this.hasUserInteracted) {
-                this.hasUserInteracted = true;
-                this.attemptAutoPlay();
-                // Remove listeners after first interaction
-                document.removeEventListener('click', enableAutoPlay);
-                document.removeEventListener('touchstart', enableAutoPlay);
-                document.removeEventListener('keydown', enableAutoPlay);
-            }
-        };
-        
-        document.addEventListener('click', enableAutoPlay);
-        document.addEventListener('touchstart', enableAutoPlay);
-        document.addEventListener('keydown', enableAutoPlay);
-        
-        // Handle audio errors
-        this.audio.addEventListener('error', (e) => {
-            console.log('Audio file not found, using fallback');
-            // Fallback to online royalty-free music if local file not found
+        this.audio.addEventListener('error', () => {
             this.audio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
             this.audio.load();
             this.attemptAutoPlay();
         });
         
-        // Update UI when audio ends (though loop is on)
-        this.audio.addEventListener('ended', () => {
-            if (this.audio.loop) {
-                this.audio.play();
-            } else {
-                this.isPlaying = false;
-                this.updateButtonUI();
-            }
-        });
+        const enableAutoPlay = () => {
+            if (!this.isPlaying) this.attemptAutoPlay();
+            document.removeEventListener('click', enableAutoPlay);
+            document.removeEventListener('touchstart', enableAutoPlay);
+        };
+        document.addEventListener('click', enableAutoPlay);
+        document.addEventListener('touchstart', enableAutoPlay);
     }
     
     attemptAutoPlay() {
         this.audio.play().then(() => {
             this.isPlaying = true;
             this.updateButtonUI();
-            console.log('Auto-play started');
-        }).catch(err => {
-            console.log('Auto-play blocked. User needs to interact:', err);
+        }).catch(() => {
             this.isPlaying = false;
             this.updateButtonUI();
-            // Show toast to inform user
-            showToast('Click music button to play royal melody');
+            showToast('Tap play to enjoy royal melody');
         });
     }
     
@@ -329,10 +284,7 @@ class MusicPlayer {
             this.audio.pause();
             this.isPlaying = false;
         } else {
-            this.audio.play().catch(err => {
-                console.log('Play failed:', err);
-                showToast('Click anywhere to enable audio');
-            });
+            this.audio.play().catch(() => showToast('Tap anywhere to enable audio'));
             this.isPlaying = true;
         }
         this.updateButtonUI();
@@ -357,49 +309,37 @@ class MusicPlayer {
 function showToast(message, duration = 2800) {
     const toast = document.getElementById('toast');
     const toastMsg = document.getElementById('toast-message');
-    
     if (!toast || !toastMsg) return;
-    
     toastMsg.textContent = message;
     toast.classList.remove('show');
     void toast.offsetWidth;
     toast.classList.add('show');
-    
-    setTimeout(() => {
-        toast.classList.remove('show');
-    }, duration);
+    setTimeout(() => toast.classList.remove('show'), duration);
 }
 
 // ============================================
 // DOM READY
 // ============================================
 window.addEventListener('DOMContentLoaded', () => {
-    // Initialize All Effects
     new CursorGlow();
     new GoldDustSystem();
     new ParticleSystem();
     new MouseTrail();
     new MusicPlayer();
     
-    // Loader
     const loader = document.getElementById('loader');
     const loadingBar = document.getElementById('loadingBar');
     
     if (loader && loadingBar) {
         loader.style.backdropFilter = 'blur(12px)';
-        loader.style.webkitBackdropFilter = 'blur(12px)';
-        
         let progress = 0;
         const interval = setInterval(() => {
             progress += Math.random() * 18;
             if (progress >= 100) {
                 progress = 100;
                 clearInterval(interval);
-                
                 loader.classList.add('loaded');
                 loader.style.backdropFilter = 'blur(0px)';
-                loader.style.webkitBackdropFilter = 'blur(0px)';
-                
                 setTimeout(() => {
                     loader.style.display = 'none';
                     showToast('Welcome to XFOURTEEN');
@@ -409,7 +349,6 @@ window.addEventListener('DOMContentLoaded', () => {
         }, 50);
     }
     
-    // Ripple effect for link cards
     const addRippleEffect = (element) => {
         element.addEventListener('click', function(e) {
             const ripple = document.createElement('span');
@@ -417,53 +356,25 @@ window.addEventListener('DOMContentLoaded', () => {
             const size = Math.max(rect.width, rect.height);
             const x = e.clientX - rect.left - size / 2;
             const y = e.clientY - rect.top - size / 2;
-            
-            ripple.style.width = ripple.style.height = `${size}px`;
-            ripple.style.left = `${x}px`;
-            ripple.style.top = `${y}px`;
-            ripple.style.position = 'absolute';
-            ripple.style.borderRadius = '50%';
-            ripple.style.backgroundColor = 'rgba(212, 175, 55, 0.4)';
-            ripple.style.transform = 'scale(0)';
-            ripple.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1), opacity 0.4s ease';
-            ripple.style.pointerEvents = 'none';
-            ripple.style.zIndex = '10';
-            
+            ripple.style.cssText = `position:absolute; width:${size}px; height:${size}px; left:${x}px; top:${y}px; border-radius:50%; background:rgba(212,175,55,0.4); transform:scale(0); transition:transform 0.4s ease, opacity 0.4s ease; pointer-events:none; z-index:10;`;
             this.style.position = 'relative';
             this.style.overflow = 'hidden';
             this.appendChild(ripple);
-            
-            setTimeout(() => {
-                ripple.style.transform = 'scale(2)';
-                ripple.style.opacity = '0';
-            }, 10);
-            
-            setTimeout(() => {
-                ripple.remove();
-            }, 500);
+            setTimeout(() => { ripple.style.transform = 'scale(2)'; ripple.style.opacity = '0'; }, 10);
+            setTimeout(() => ripple.remove(), 500);
         });
     };
-    
     document.querySelectorAll('.link-card').forEach(card => addRippleEffect(card));
     
-    // Preload images
-    document.querySelectorAll('img').forEach(img => {
-        if (img.src && !img.complete) img.loading = 'eager';
-    });
+    document.querySelectorAll('img').forEach(img => { if (img.src && !img.complete) img.loading = 'eager'; });
     
-    // Handle empty links
     document.querySelectorAll('.link-card').forEach(card => {
-        const link = card.getAttribute('href');
-        if (!link || link === '#' || link === '#!' || link === 'javascript:void(0)') {
-            card.addEventListener('click', (e) => {
-                e.preventDefault();
-                showToast('Coming soon!');
-            });
+        if (!card.getAttribute('href') || card.getAttribute('href') === '#') {
+            card.addEventListener('click', (e) => { e.preventDefault(); showToast('Coming soon!'); });
         }
     });
 });
 
-// Debounce function
 function debounce(func, wait) {
     let timeout;
     return function(...args) {
@@ -481,7 +392,6 @@ window.addEventListener('resize', debounce(() => {
     });
 }, 250));
 
-// Prevent right-click on images
 document.querySelectorAll('img').forEach(img => {
     img.addEventListener('contextmenu', (e) => e.preventDefault());
 });
