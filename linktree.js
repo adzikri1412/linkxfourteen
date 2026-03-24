@@ -1,6 +1,6 @@
 /**
  * XFOURTEEN LINKTREE - GOLDEN ROYAL EDITION
- * FULL JS - WITH MUSIC PLAYER
+ * FULL JS - WITH MUSIC PLAYER (Auto-play, Play/Pause, Volume Control)
  */
 
 // ============================================
@@ -234,66 +234,119 @@ class CursorGlow {
 }
 
 // ============================================
-// MUSIC PLAYER
+// MUSIC PLAYER - WITH AUTO-PLAY & VOLUME CONTROL
 // ============================================
 class MusicPlayer {
     constructor() {
         this.audio = document.getElementById('bgMusic');
         this.toggleBtn = document.getElementById('musicToggle');
+        this.volumeSlider = document.getElementById('volumeControl');
         this.musicIcon = this.toggleBtn?.querySelector('.music-icon');
         this.pauseIcon = this.toggleBtn?.querySelector('.pause-icon');
         this.isPlaying = false;
+        this.hasUserInteracted = false;
         this.init();
     }
 
     init() {
         if (!this.audio || !this.toggleBtn) return;
         
-        // Set volume
+        // Set initial volume
         this.audio.volume = 0.5;
+        if (this.volumeSlider) {
+            this.volumeSlider.value = 50;
+        }
         
-        // Try to load audio
+        // Load audio
         this.audio.load();
         
-        // Auto-play attempt (will be blocked by browser, but we try)
-        this.audio.play().catch(() => {
-            console.log('Autoplay blocked - user needs to interact first');
-        });
+        // Try to auto-play (will be blocked by browser, but we try)
+        this.attemptAutoPlay();
         
-        // Add click event
-        this.toggleBtn.addEventListener('click', () => this.toggle());
+        // Add click event for toggle button
+        this.toggleBtn.addEventListener('click', () => this.togglePlay());
         
-        // Add event listeners for audio
-        this.audio.addEventListener('canplaythrough', () => {
-            console.log('Audio ready');
-        });
+        // Add volume control event
+        if (this.volumeSlider) {
+            this.volumeSlider.addEventListener('input', (e) => {
+                const volume = e.target.value / 100;
+                this.audio.volume = volume;
+            });
+        }
         
+        // Add event listener for user interaction to enable auto-play
+        const enableAutoPlay = () => {
+            if (!this.hasUserInteracted) {
+                this.hasUserInteracted = true;
+                this.attemptAutoPlay();
+                // Remove listeners after first interaction
+                document.removeEventListener('click', enableAutoPlay);
+                document.removeEventListener('touchstart', enableAutoPlay);
+                document.removeEventListener('keydown', enableAutoPlay);
+            }
+        };
+        
+        document.addEventListener('click', enableAutoPlay);
+        document.addEventListener('touchstart', enableAutoPlay);
+        document.addEventListener('keydown', enableAutoPlay);
+        
+        // Handle audio errors
         this.audio.addEventListener('error', (e) => {
-            console.log('Audio error, using fallback');
-            // Fallback to online source if local file not found
-            if (this.audio.src.includes('golden-brown.mp3')) {
-                this.audio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
-                this.audio.load();
+            console.log('Audio file not found, using fallback');
+            // Fallback to online royalty-free music if local file not found
+            this.audio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+            this.audio.load();
+            this.attemptAutoPlay();
+        });
+        
+        // Update UI when audio ends (though loop is on)
+        this.audio.addEventListener('ended', () => {
+            if (this.audio.loop) {
+                this.audio.play();
+            } else {
+                this.isPlaying = false;
+                this.updateButtonUI();
             }
         });
     }
-
-    toggle() {
+    
+    attemptAutoPlay() {
+        this.audio.play().then(() => {
+            this.isPlaying = true;
+            this.updateButtonUI();
+            console.log('Auto-play started');
+        }).catch(err => {
+            console.log('Auto-play blocked. User needs to interact:', err);
+            this.isPlaying = false;
+            this.updateButtonUI();
+            // Show toast to inform user
+            showToast('Click music button to play royal melody');
+        });
+    }
+    
+    togglePlay() {
         if (this.isPlaying) {
             this.audio.pause();
-            this.musicIcon.classList.remove('hidden');
-            this.pauseIcon.classList.add('hidden');
-            this.toggleBtn.classList.remove('playing');
             this.isPlaying = false;
         } else {
             this.audio.play().catch(err => {
                 console.log('Play failed:', err);
                 showToast('Click anywhere to enable audio');
             });
+            this.isPlaying = true;
+        }
+        this.updateButtonUI();
+    }
+    
+    updateButtonUI() {
+        if (this.isPlaying) {
             this.musicIcon.classList.add('hidden');
             this.pauseIcon.classList.remove('hidden');
             this.toggleBtn.classList.add('playing');
-            this.isPlaying = true;
+        } else {
+            this.musicIcon.classList.remove('hidden');
+            this.pauseIcon.classList.add('hidden');
+            this.toggleBtn.classList.remove('playing');
         }
     }
 }
@@ -356,7 +409,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }, 50);
     }
     
-    // Ripple effect
+    // Ripple effect for link cards
     const addRippleEffect = (element) => {
         element.addEventListener('click', function(e) {
             const ripple = document.createElement('span');
