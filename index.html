@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="XFOURTEEN CORPORATION - Premium Gaming Optimization. Royal settings for elite players.">
+    <meta name="keywords" content="XFOURTEEN, Free Fire settings, gaming optimization, sensitivity settings">
+    <meta name="author" content="XFOURTEEN CORPORATION">
+    <title>XFOURTEEN | Linktree - Royal Gaming Optimization</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="linktree.css">
+</head>
+<body class="bg-royal-darker text-gold-100">
+
+    <!-- Canvas Background Effects -->
+    <canvas id="goldDustCanvas" class="fixed inset-0 -z-10 opacity-50"></canvas>
+    <canvas id="particleCanvas" class="fixed inset-0 -z-5 opacity-40"></canvas>
+    <canvas id="mouseTrailCanvas" class="fixed inset-0 -z-5 pointer-events-none"></canvas>
+
+    <!-- Loading Screen - Optimized -->
+    <div id="loader" class="fixed inset-0 z-[100] bg-royal-darkest flex flex-col items-center justify-center transition-all duration-700">
+        <div class="text-center px-6">
+            <!-- Royal Crest Animation -->
+            <div class="relative mb-8">
+                <div class="absolute inset-0 bg-gradient-to-r from-gold-500/20 via-amber-500/20 to-gold-600/20 rounded-full blur-2xl"></div>
+                <div class="relative w-24 h-24 md:w-28 md:h-28 mx-auto">
+                    <div class="absolute inset-0 border-2 border-gold-500/30 rounded-full animate-ping-slow"></div>
+                    <div class="absolute inset-0 border-2 border-gold-500 rounded-full animate-spin-slow"></div>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-gold-600 to-amber-700 rounded-full flex items-center justify-center shadow-2xl shadow-gold-500/30">
+                            <i class="fas fa-crown text-2xl md:text-3xl text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Brand Text -->
+            <h2 class="text-xl md:text-2xl font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-gold-400 via-amber-400 to-gold-500 uppercase font-cormorant mb-3">
+                XFOURTEEN CORPORATION
+            </h2>
+            
+            <!-- Loading Bar -->
+            <div class="relative w-48 h-0.5 bg-gold-900/30 rounded-full overflow-hidden mx-auto my-5">
+                <div id="loadingBar" class="absolute inset-0 w-0 bg-gradient-to-r from-gold-500 to-amber-500 rounded-full transition-all duration-300 ease-out"></div>
+            </div>
+            
+            <!-- Loading Text -->
+            <p class="text-gold-400/60 text-[10px] tracking-[0.3em] uppercase font-montserrat font-medium">Preparing Royal Experience</p>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="min-h-screen flex flex-col items-center justify-center px-6 py-10 relative z-10">
+        
+        <!-- Profile Section -->
+        <div class="text-center mb-8 animate-fade-in">
+            <!-- Avatar with Glow Effect -->
+            <div class="avatar-wrapper mb-5">
+                <div class="avatar-inner relative">
+                    <div class="absolute -inset-3 rounded-full bg-gradient-to-r from-gold-500/20 to-amber-500/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <img src="team-dev.jpg" alt="XFOURTEEN" class="w-24 h-24 md:w-28 md:h-28 rounded-full object-cover border-2 border-gold-500/40 shadow-2xl shadow-gold-500/20 transition-all duration-300 hover:scale-105 hover:border-gold-500/80" onerror="this.src='https://placehold.co/112x112/d4af37/1a1a1a?text=X'">
+                </div>
+            </div>
+            
+            <!-- Name -->
+            <h1 class="text-2xl md:text-3xl font-bold font-cormorant mb-2">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-amber-500">XFOURTEEN</span>
+                <span class="text-white"> CORPORATION</span>
+            </h1>
+            
+            <!-- Bio -->
+            <p class="text-gold-300/60 text-sm max-w-xs mx-auto mt-2 leading-relaxed">
+                Premium Gaming Optimization | Royal Settings for Elite Players
+            </p>
+        </div>
+        
+        <!-- Links Container -->
+        <div class="links-container w-full max-w-md space-y-3 mb-8">
+            
+            <!-- WhatsApp Channel -->
+            <a href="https://whatsapp.com/channel/0029Vacu3BN9Gv7OILrZIX0i" target="_blank" rel="noopener noreferrer" class="link-card group">
+                <div class="link-icon bg-green-500/10 text-green-500 group-hover:bg-green-500 group-hover:text-white transition-all duration-300">
+                    <i class="fab fa-whatsapp text-lg md:text-xl"></i>
+                </div>
+                <div class="flex-1 text-left">
+                    <h3 class="text-white font-semibold text-sm md:text-base">WhatsApp Channel</h3>
+                    <p class="text-gold-300/40 text-[10px] md:text-xs">Join our royal WhatsApp channel</p>
+                </div>
+                <i class="fas fa-chevron-right text-gold-500/40 group-hover:text-gold-500 group-hover:translate-x-1 transition-all duration-300 text-sm"></i>
+            </a>
+            
+            <!-- Discord Server -->
+            <a href="https://discord.gg/bekkmRDQXX" target="_blank" rel="noopener noreferrer" class="link-card group">
+                <div class="link-icon bg-indigo-500/10 text-indigo-400 group-hover:bg-indigo-500 group-hover:text-white transition-all duration-300">
+                    <i class="fab fa-discord text-lg md:text-xl"></i>
+                </div>
+                <div class="flex-1 text-left">
+                    <h3 class="text-white font-semibold text-sm md:text-base">Discord Server</h3>
+                    <p class="text-gold-300/40 text-[10px] md:text-xs">Join our royal Discord community</p>
+                </div>
+                <i class="fas fa-chevron-right text-gold-500/40 group-hover:text-gold-500 group-hover:translate-x-1 transition-all duration-300 text-sm"></i>
+            </a>
+            
+            <!-- Instagram -->
+            <a href="https://instagram.com/ghaziyinhere" target="_blank" rel="noopener noreferrer" class="link-card group">
+                <div class="link-icon bg-pink-500/10 text-pink-500 group-hover:bg-pink-500 group-hover:text-white transition-all duration-300">
+                    <i class="fab fa-instagram text-lg md:text-xl"></i>
+                </div>
+                <div class="flex-1 text-left">
+                    <h3 class="text-white font-semibold text-sm md:text-base">Instagram</h3>
+                    <p class="text-gold-300/40 text-[10px] md:text-xs">Follow for updates & tips</p>
+                </div>
+                <i class="fas fa-chevron-right text-gold-500/40 group-hover:text-gold-500 group-hover:translate-x-1 transition-all duration-300 text-sm"></i>
+            </a>
+            
+            <!-- TikTok -->
+            <a href="https://tiktok.com/@xenzzsettings" target="_blank" rel="noopener noreferrer" class="link-card group">
+                <div class="link-icon bg-black/30 text-gold-400 group-hover:bg-black group-hover:text-white transition-all duration-300">
+                    <i class="fab fa-tiktok text-lg md:text-xl"></i>
+                </div>
+                <div class="flex-1 text-left">
+                    <h3 class="text-white font-semibold text-sm md:text-base">TikTok</h3>
+                    <p class="text-gold-300/40 text-[10px] md:text-xs">Watch our content & tutorials</p>
+                </div>
+                <i class="fas fa-chevron-right text-gold-500/40 group-hover:text-gold-500 group-hover:translate-x-1 transition-all duration-300 text-sm"></i>
+            </a>
+            
+            <!-- Official Website - DIRECT TO xfourteen.my.id -->
+            <a href="https://www.xfourteen.my.id" target="_blank" rel="noopener noreferrer" class="link-card group">
+                <div class="link-icon bg-gold-500/10 text-gold-500 group-hover:bg-gold-500 group-hover:text-royal-dark transition-all duration-300">
+                    <i class="fas fa-crown text-lg md:text-xl"></i>
+                </div>
+                <div class="flex-1 text-left">
+                    <h3 class="text-white font-semibold text-sm md:text-base">Official Website</h3>
+                    <p class="text-gold-300/40 text-[10px] md:text-xs">Explore our royal products</p>
+                </div>
+                <i class="fas fa-chevron-right text-gold-500/40 group-hover:text-gold-500 group-hover:translate-x-1 transition-all duration-300 text-sm"></i>
+            </a>
+            
+            <!-- Royal Support - WhatsApp Direct -->
+            <a href="https://wa.me/628895823757" target="_blank" rel="noopener noreferrer" class="link-card group">
+                <div class="link-icon bg-gold-500/10 text-gold-500 group-hover:bg-gold-500 group-hover:text-royal-dark transition-all duration-300">
+                    <i class="fas fa-headset text-lg md:text-xl"></i>
+                </div>
+                <div class="flex-1 text-left">
+                    <h3 class="text-white font-semibold text-sm md:text-base">Royal Support</h3>
+                    <p class="text-gold-300/40 text-[10px] md:text-xs">Contact us directly</p>
+                </div>
+                <i class="fas fa-chevron-right text-gold-500/40 group-hover:text-gold-500 group-hover:translate-x-1 transition-all duration-300 text-sm"></i>
+            </a>
+            
+        </div>
+        
+        <!-- Social Icons -->
+        <div class="social-icons flex gap-5 md:gap-6 mb-8">
+            <a href="https://instagram.com/dzixnidek" target="_blank" rel="noopener noreferrer" class="social-icon group">
+                <i class="fab fa-instagram text-lg md:text-xl text-gold-400/60 group-hover:text-gold-500 group-hover:scale-110 transition-all duration-300"></i>
+            </a>
+            <a href="https://tiktok.com/@xenzxsukamimisusu" target="_blank" rel="noopener noreferrer" class="social-icon group">
+                <i class="fab fa-tiktok text-lg md:text-xl text-gold-400/60 group-hover:text-gold-500 group-hover:scale-110 transition-all duration-300"></i>
+            </a>
+            <a href="https://discord.gg/bekkmRDQXX" target="_blank" rel="noopener noreferrer" class="social-icon group">
+                <i class="fab fa-discord text-lg md:text-xl text-gold-400/60 group-hover:text-gold-500 group-hover:scale-110 transition-all duration-300"></i>
+            </a>
+            <a href="https://whatsapp.com/channel/0029Vacu3BN9Gv7OILrZIX0i" target="_blank" rel="noopener noreferrer" class="social-icon group">
+                <i class="fab fa-whatsapp text-lg md:text-xl text-gold-400/60 group-hover:text-gold-500 group-hover:scale-110 transition-all duration-300"></i>
+            </a>
+            <a href="https://www.xfourteen.my.id" target="_blank" rel="noopener noreferrer" class="social-icon group">
+                <i class="fas fa-globe text-lg md:text-xl text-gold-400/60 group-hover:text-gold-500 group-hover:scale-110 transition-all duration-300"></i>
+            </a>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="text-center">
+            <p class="text-gold-500/30 text-[9px] md:text-[10px] tracking-wider uppercase font-medium">
+                © 2026 XFOURTEEN CORPORATION. All Rights Reserved.
+            </p>
+        </footer>
+        
+    </main>
+
+        <!-- Toast Notification - RAPI & CLEAN -->
+        <div id="toast">
+            <div class="toast-content">
+                <i class="fas fa-crown"></i>
+                <span id="toast-message">Welcome to XFOURTEEN</span>
+            </div>
+        </div>
+
+    <script src="linktree.js"></script>
+</body>
+</html>
