@@ -1,6 +1,6 @@
 /* ============================================
    XFOURTEEN LINKTREE - GOLDEN ROYAL EDITION
-   WITH MUSIC PLAYER
+   WITH VIDEO BACKGROUND & MUSIC PLAYER
    ============================================ */
 
 /* Import Fonts */
@@ -32,7 +32,78 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom Scrollbar */
+/* ============================================
+   BACKGROUND VIDEO - MOVING BACKGROUND
+   ============================================ */
+
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    overflow: hidden;
+}
+
+.video-background video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    filter: brightness(0.7) contrast(1.1);
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(8, 5, 5, 0.75) 0%, rgba(15, 10, 10, 0.7) 50%, rgba(212, 175, 55, 0.15) 100%);
+    z-index: 1;
+    pointer-events: none;
+    animation: overlayPulse 8s ease-in-out infinite;
+}
+
+.video-background::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+@keyframes overlayPulse {
+    0% { background: linear-gradient(135deg, rgba(8, 5, 5, 0.75) 0%, rgba(15, 10, 10, 0.7) 50%, rgba(212, 175, 55, 0.1) 100%); }
+    50% { background: linear-gradient(135deg, rgba(8, 5, 5, 0.7) 0%, rgba(15, 10, 10, 0.65) 50%, rgba(212, 175, 55, 0.2) 100%); }
+    100% { background: linear-gradient(135deg, rgba(8, 5, 5, 0.75) 0%, rgba(15, 10, 10, 0.7) 50%, rgba(212, 175, 55, 0.1) 100%); }
+}
+
+/* ============================================
+   CANVAS
+   ============================================ */
+#goldDustCanvas, #particleCanvas, #mouseTrailCanvas {
+    z-index: -1 !important;
+}
+
+main, #musicPlayer, #toast {
+    position: relative;
+    z-index: 10;
+}
+
+/* ============================================
+   CUSTOM SCROLLBAR
+   ============================================ */
 ::-webkit-scrollbar {
     width: 5px;
 }
@@ -50,7 +121,9 @@ body {
     background: var(--gold-light);
 }
 
-/* Utility Classes */
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
 .font-cormorant {
     font-family: 'Cormorant Garamond', serif;
 }
@@ -81,22 +154,18 @@ body {
     100% { background-position: 200% 0; }
 }
 
-.animate-spin-slow {
-    animation: spin-slow 6s linear infinite;
+@keyframes music-pulse {
+    0% { transform: scale(0.8); opacity: 0.8; }
+    100% { transform: scale(1.5); opacity: 0; }
 }
 
-.animate-ping-slow {
-    animation: ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite;
-}
-
-.animate-fade-in {
-    animation: fade-in 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-}
+.animate-spin-slow { animation: spin-slow 6s linear infinite; }
+.animate-ping-slow { animation: ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite; }
+.animate-fade-in { animation: fade-in 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
 
 /* ============================================
-   LOADING SCREEN - BLUR BACKGROUND EFFECT
+   LOADING SCREEN
    ============================================ */
-
 #loader {
     position: fixed;
     inset: 0;
@@ -165,10 +234,7 @@ body {
 /* ============================================
    PROFILE SECTION
    ============================================ */
-
-.text-center.mb-8 {
-    margin-bottom: 32px !important;
-}
+.text-center.mb-8 { margin-bottom: 32px !important; }
 
 .avatar-wrapper {
     position: relative;
@@ -193,15 +259,10 @@ body {
 }
 
 @media (min-width: 768px) {
-    .avatar-inner img {
-        width: 112px;
-        height: 112px;
-    }
+    .avatar-inner img { width: 112px; height: 112px; }
 }
 
-h1 {
-    margin-bottom: 8px !important;
-}
+h1 { margin-bottom: 8px !important; }
 
 h1 .text-transparent.bg-clip-text {
     background: linear-gradient(135deg, #ffdd99, #ffcc77, #ffdd99) !important;
@@ -229,16 +290,12 @@ h1 .text-white {
 
 @media (min-width: 768px) {
     h1 .text-transparent.bg-clip-text,
-    h1 .text-white {
-        font-size: 2.2rem !important;
-    }
+    h1 .text-white { font-size: 2.2rem !important; }
 }
 
 @media (max-width: 480px) {
     h1 .text-transparent.bg-clip-text,
-    h1 .text-white {
-        font-size: 1.4rem !important;
-    }
+    h1 .text-white { font-size: 1.4rem !important; }
 }
 
 .text-gold-300\/60 {
@@ -251,10 +308,7 @@ h1 .text-white {
 }
 
 @media (min-width: 768px) {
-    .text-gold-300\/60 {
-        font-size: 0.9rem !important;
-        max-width: 320px !important;
-    }
+    .text-gold-300\/60 { font-size: 0.9rem !important; max-width: 320px !important; }
 }
 
 /* ============================================
@@ -282,13 +336,7 @@ h1 .text-white {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(115deg, 
-        transparent 0%, 
-        transparent 40%, 
-        rgba(212, 175, 55, 0.08) 50%, 
-        rgba(255, 255, 255, 0.1) 60%, 
-        transparent 70%, 
-        transparent 100%);
+    background: linear-gradient(115deg, transparent 0%, transparent 40%, rgba(212, 175, 55, 0.08) 50%, rgba(255, 255, 255, 0.1) 60%, transparent 70%, transparent 100%);
     background-size: 200% 100%;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -331,25 +379,10 @@ h1 .text-white {
 }
 
 @media (min-width: 768px) {
-    .link-card {
-        padding: 16px 22px;
-        border-radius: 20px;
-        gap: 16px;
-    }
-    
-    .link-icon {
-        width: 50px;
-        height: 50px;
-        border-radius: 16px;
-    }
-    
-    .link-card h3 {
-        font-size: 1rem;
-    }
-    
-    .link-card p {
-        font-size: 0.7rem;
-    }
+    .link-card { padding: 16px 22px; gap: 16px; }
+    .link-icon { width: 50px; height: 50px; border-radius: 16px; }
+    .link-card h3 { font-size: 1rem; }
+    .link-card p { font-size: 0.7rem; }
 }
 
 /* ============================================
@@ -382,12 +415,8 @@ h1 .text-white {
 }
 
 @media (min-width: 768px) {
-    .social-icons {
-        gap: 28px;
-    }
-    .social-icon i {
-        font-size: 1.5rem !important;
-    }
+    .social-icons { gap: 28px; }
+    .social-icon i { font-size: 1.5rem !important; }
 }
 
 /* ============================================
@@ -404,18 +433,15 @@ h1 .text-white {
 }
 
 /* ============================================
-   MUSIC PLAYER - GOLDEN ROYAL THEME
+   MUSIC PLAYER
    ============================================ */
-
-#musicPlayer {
-    z-index: 100;
-}
+#musicPlayer { z-index: 100; }
 
 .music-player-container {
     display: flex;
     align-items: center;
     gap: 12px;
-    background: linear-gradient(145deg, rgba(15, 10, 10, 0.95), rgba(8, 5, 5, 0.98));
+    background: linear-gradient(145deg, rgba(15, 10, 10, 0.9), rgba(8, 5, 5, 0.95));
     backdrop-filter: blur(12px);
     padding: 8px 16px 8px 12px;
     border-radius: 60px;
@@ -456,9 +482,7 @@ h1 .text-white {
     transition: all 0.2s ease;
 }
 
-.music-toggle-btn .hidden {
-    display: none;
-}
+.music-toggle-btn .hidden { display: none; }
 
 .music-pulse {
     position: absolute;
@@ -473,17 +497,6 @@ h1 .text-white {
 .music-toggle-btn.playing .music-pulse {
     opacity: 1;
     animation: music-pulse 1.5s ease-out infinite;
-}
-
-@keyframes music-pulse {
-    0% {
-        transform: scale(0.8);
-        opacity: 0.8;
-    }
-    100% {
-        transform: scale(1.5);
-        opacity: 0;
-    }
 }
 
 .music-info {
@@ -506,76 +519,18 @@ h1 .text-white {
     font-family: 'Montserrat', sans-serif;
 }
 
-/* Volume Control */
-.music-volume {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-left: 4px;
-}
-
-.music-volume i {
-    font-size: 0.75rem;
-    color: #ffea8a;
-}
-
-.volume-slider {
-    width: 60px;
-    height: 3px;
-    -webkit-appearance: none;
-    background: rgba(212, 175, 55, 0.3);
-    border-radius: 3px;
-    outline: none;
-    cursor: pointer;
-}
-
-.volume-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #ffea8a;
-    cursor: pointer;
-    box-shadow: 0 0 5px rgba(255, 234, 138, 0.8);
-}
-
 @media (max-width: 640px) {
-    .music-player-container {
-        padding: 6px 12px 6px 10px;
-        gap: 8px;
-    }
-    
-    .music-toggle-btn {
-        width: 38px;
-        height: 38px;
-    }
-    
-    .music-toggle-btn i {
-        font-size: 1rem;
-    }
-    
-    .music-title {
-        font-size: 0.65rem;
-    }
-    
-    .music-artist {
-        font-size: 0.5rem;
-    }
-    
-    .music-volume {
-        display: none;
-    }
-    
-    #musicPlayer {
-        bottom: 20px;
-        left: 20px;
-    }
+    .music-player-container { padding: 6px 12px 6px 10px; gap: 8px; }
+    .music-toggle-btn { width: 38px; height: 38px; }
+    .music-toggle-btn i { font-size: 1rem; }
+    .music-title { font-size: 0.65rem; }
+    .music-artist { font-size: 0.5rem; }
+    #musicPlayer { bottom: 20px; left: 20px; }
 }
 
 /* ============================================
    TOAST NOTIFICATION
    ============================================ */
-
 #toast {
     position: fixed;
     bottom: 30px;
@@ -620,22 +575,10 @@ h1 .text-white {
 }
 
 @media (max-width: 640px) {
-    #toast .toast-content {
-        padding: 10px 20px;
-        gap: 10px;
-    }
-    
-    #toast .toast-content i {
-        font-size: 1rem;
-    }
-    
-    #toast .toast-content span {
-        font-size: 0.75rem;
-    }
-    
-    #toast {
-        bottom: 20px;
-    }
+    #toast .toast-content { padding: 10px 20px; gap: 10px; }
+    #toast .toast-content i { font-size: 1rem; }
+    #toast .toast-content span { font-size: 0.75rem; }
+    #toast { bottom: 20px; }
 }
 
 @keyframes toast-icon-pulse {
@@ -643,9 +586,7 @@ h1 .text-white {
     50% { transform: scale(1.1); }
 }
 
-#toast.show .toast-content i {
-    animation: toast-icon-pulse 0.5s ease-in-out;
-}
+#toast.show .toast-content i { animation: toast-icon-pulse 0.5s ease-in-out; }
 
 /* ============================================
    FOOTER
@@ -656,50 +597,28 @@ footer p {
 }
 
 @media (min-width: 768px) {
-    footer p {
-        font-size: 0.75rem !important;
-    }
+    footer p { font-size: 0.75rem !important; }
 }
 
 /* ============================================
    RESPONSIVE
    ============================================ */
 @media (max-width: 480px) {
-    .link-card {
-        padding: 12px 16px;
-        border-radius: 16px;
-        gap: 12px;
-    }
-    
-    .link-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 12px;
-    }
-    
-    .link-card h3 {
-        font-size: 0.85rem;
-    }
-    
-    .link-card p {
-        font-size: 0.6rem;
-    }
-    
-    .social-icons {
-        gap: 16px;
-    }
-    
-    .social-icon i {
-        font-size: 1.2rem !important;
-    }
+    .link-card { padding: 12px 16px; gap: 12px; }
+    .link-icon { width: 40px; height: 40px; border-radius: 12px; }
+    .link-card h3 { font-size: 0.85rem; }
+    .link-card p { font-size: 0.6rem; }
+    .social-icons { gap: 16px; }
+    .social-icon i { font-size: 1.2rem !important; }
+}
+
+@media (max-width: 768px) {
+    .video-overlay { background: linear-gradient(135deg, rgba(8, 5, 5, 0.85) 0%, rgba(15, 10, 10, 0.8) 50%, rgba(212, 175, 55, 0.2) 100%); }
 }
 
 /* ============================================
    PERFORMANCE
    ============================================ */
 @media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-    }
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
